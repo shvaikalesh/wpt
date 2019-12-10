@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>Input number type invoking step function with value out of range.</title>
+  <script src="/resources/testharness.js"></script>
+  <script src="/resources/testharnessreport.js"></script>
+ </head>
+ <body>
+  <form method="post"
+      enctype="application/x-www-form-urlencoded"
+      action=""
+      name="input_form">
+  <p><input type="number" id="stepup_input" required min="0" max="100" step="10" value="200"></p>
+  <p><input type="number" id="stepdown_input" required min="300" max="400" step="10" value="200"></p>
+  </form>
+
+  <script>
+
+    var stepup_input = document.getElementById("stepup_input"),
+        stepdown_input = document.getElementById("stepdown_input");
+
+    if (typeof(stepup_input.stepUp) == "function") {
+
+      test(function() {
+        stepup_input.stepUp();
+        assert_equals(stepup_input.value, "200", "value shouldn't change.");
+      }, "Calling stepUp() on input where value > max should not modify value.");
+
+      test(function() {
+        stepdown_input.stepDown();
+        assert_equals(stepdown_input.value, "200", "value shouldn't change.");
+      }, "Calling stepDown() on input where value < min should not modify value.");
+
+    } else {
+      test(function() {
+        assert_unreached("stepUp attribute is not exist.");
+      });
+    }
+
+  </script>
+
+ </body>
+</html>
